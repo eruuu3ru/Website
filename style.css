@@ -1667,3 +1667,7 @@ html{
   font-size: 13px;
   color: rgba(242,242,255,0.7);
 }
+
+.rules-card .info-head{
+  margin-bottom: 14px;
+}
