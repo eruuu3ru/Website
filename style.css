@@ -1066,7 +1066,7 @@ select option{ background:#0b0b14; color:#f2f2ff; }
 
 .reveal{
   opacity: 0;
-  transform: translateY(14px) scale(0.98);
+  transform: translateY(15px) scale(0.98);
   transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
   will-change: opacity, transform;
 }
