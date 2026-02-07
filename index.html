@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Area 55</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <header class="top">
+    <nav class="navbar">
+      <a class="brand" href="#home">
+        <img class="logo-icon" src="logo.jpg" alt="Area 55" />
+        <span class="logo-text">Area 55</span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="#home">Home</a></li>
+        <li><a class="nav-link" href="#bookings">Bookings</a></li>
+        <li><a class="nav-link" href="#menu">Menu</a></li>
+        <li><a class="nav-link" href="#gallery">Gallery</a></li>
+        <li><a class="nav-link admin-link" href="admin.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="page">
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-card">
+        <h1 class="hero-title">AREA 55</h1>
+        <p class="hero-subtitle">
+          Book your KTV room fast, clean, and easy.
+          <b>Pick a date</b>, select a time, and confirm.
+          Eat food and drink while having fun in the KTV!
+        </p>
+
+        <div class="hours-card">
+          <span class="dot"></span>
+          <span>Open <b>6:00 AM</b> — <b>10:00 PM</b></span>
+        </div>
+
+        <div class="cta-row">
+          <a class="cta-btn" href="#bookings">Book Now</a>
+          <a class="cta-btn ghost" href="#gallery">View Gallery</a>
+        </div>
+
+        <div class="chips">
+          <span class="chip">Private room</span>
+          <span class="chip">Clean + safe</span>
+          <span class="chip">Student-friendly</span>
+          <span class="chip">Fast booking</span>
+          <span class="chip">Eat! Drink! Enjoy!</span>
+
+        </div>
+
+        <div class="feature-row">
+          <div class="feature">
+            <h3>Easy Booking</h3>
+            <p>Choose date + start time + duration. Live availability updates instantly.</p>
+          </div>
+          <div class="feature">
+            <h3>Food & Drinks</h3>
+            <p>Affordable menu to complete your session. Perfect for barkada night!</p>
+          </div>
+          <div class="feature">
+            <h3>Chat Support</h3>
+            <p>Message the admin anytime for inquiries or help.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOKINGS -->
+    <section id="bookings">
+      <div class="section-head">
+        <h2>Bookings</h2>
+        <p>Pick a date and choose an available start time. Booked hours are red.</p>
+      </div>
+
+      <div class="booking-grid">
+
+        <!-- LEFT PANEL -->
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Book a Schedule</h3>
+            <span class="hint">Select date → pick time → confirm</span>
+          </div>
+
+          <!-- CALENDAR -->
+          <div class="calendar-box">
+            <div class="calendar-header">
+              <button class="icon-btn" id="calPrev" aria-label="Previous month">‹</button>
+              <div class="cal-month" id="calMonth">—</div>
+              <button class="icon-btn" id="calNext" aria-label="Next month">›</button>
+            </div>
+
+            <div class="calendar-weekdays">
+              <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+            </div>
+
+            <div class="calendar-days" id="calendarDays"></div>
+          </div>
+
+          <!-- FORM -->
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Full Name</label>
+              <input id="customerName" placeholder="e.g. Juan Dela Cruz" />
+            </div>
+
+            <div class="form-field">
+              <label>Phone Number</label>
+              <input id="customerPhone" placeholder="e.g. 09xxxxxxxxx" />
+            </div>
+
+            <div class="form-field">
+              <label>Start Time</label>
+              <select id="startTime"></select>
+            </div>
+
+            <div class="form-field">
+              <label>Duration</label>
+              <select id="duration"></select>
+            </div>
+
+            <div class="form-field">
+              <label>Party Size</label>
+              <select id="partySize"></select>
+            </div>
+          </div>
+
+          <!-- SLOTS -->
+          <div class="slots-head">
+            <div class="label">Available Hourly Slots</div>
+            <div class="hint">Purple = selected range • Red outline = conflict</div>
+          </div>
+          <div class="time-slots" id="timeSlots"></div>
+
+          <!-- REMINDERS -->
+          <div class="reminders">
+            <div class="rem-title">Reminders</div>
+            <ul>
+              <li>Please arrive on time (late start still counts).</li>
+              <li>Take care of equipment and keep the room clean.</li>
+              <li>Need help? Use the chat button.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- RIGHT PANEL -->
+        <aside class="panel summary">
+          <div class="panel-head">
+            <h3>Booking Summary</h3>
+          </div>
+
+          <div class="sum-row"><span>Date</span><b id="summaryDate">—</b></div>
+          <div class="sum-row"><span>Start</span><b id="summaryTime">—</b></div>
+          <div class="sum-row"><span>Duration</span><b id="summaryDuration">—</b></div>
+          <div class="sum-row"><span>Guests</span><b id="summaryGuests">1</b></div>
+          <div class="sum-row total"><span>Total</span><b id="summaryTotal">₱0</b></div>
+
+          <button class="confirm-btn" id="confirmBtn">Confirm Booking</button>
+
+        <div class="price-note" aria-label="Pricing rules">
+        <span class="pn-pill">₱150 <span class="pn-muted">1–4 persons</span></span>
+        <span class="pn-sep">•</span>
+        <span class="pn-pill">₱200 <span class="pn-muted">5–8 persons</span></span>
+        </div>
+
+
+      </div>
+    </section>
+
+    <!-- MENU (simple placeholders; keep or replace) -->
+    <section id="menu">
+      <div class="section-head">
+        <h2>Menu</h2>
+        <p>Eat Foods while having Fun KTV! <b>Order Now!</b></p>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-tile">
+          <img src="itik.jpg" alt="Fried Itik" />
+          <div class="menu-top">
+            <span class="badge">₱350</span>
+            <span class="mini">Best Seller</span>
+          </div>
+          <div class="menu-bottom">
+            <span>Fried Itik</span><span class="arrow">→</span>
+          </div>
+        </div>
+
+        <div class="menu-tile">
+          <img src="beef.jpg" alt="Iced Tea" />
+          <div class="menu-top">
+            <span class="badge">₱95</span>
+            <span class="mini">Rice Meal</span>
+          </div>
+          <div class="menu-bottom">
+            <span>Beef Mechado</span><span class="arrow">→</span>
+          </div>
+        </div>
+
+       
+          <div class="menu-bottom">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY (coverflow placeholder container) -->
+    <section id="gallery">
+  <div class="section-head">
+    <h2>Gallery</h2>
+    <p>Swipe / drag or use arrows. Click a photo to view.</p>
+  </div>
+
+  <div class="coverflow">
+    <button class="cf-arrow" id="cfPrev" aria-label="Prev">‹</button>
+
+    <div class="cf-viewport">
+      <div class="cf-track" id="cfTrack">
+        <!-- Each .cf-card must have an image + caption -->
+        <div class="cf-card">
+          <img src="photo1.jpg" alt="Room" />
+          <div class="cf-cap">KTV Room</div>
+        </div>
+        <div class="cf-card">
+          <img src="photo4.jpg" alt="Lights" />
+          <div class="cf-cap">Bond with your Friends!</div>
+        </div>
+        <div class="cf-card">
+          <img src="photo3.jpg" alt="Party" />
+          <div class="cf-cap">Enjoy the Vibes!</div>
+        </div>
+        <div class="cf-card">
+          <img src="p1.jpg" alt="Stage" />
+          <div class="cf-cap">Smile!!</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="cf-arrow" id="cfNext" aria-label="Next">›</button>
+  </div>
+
+  <div class="cf-dots" id="cfDots"></div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lb-card">
+    <button class="lb-x" id="lbClose" aria-label="Close">✕</button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Prev">‹</button>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Next">›</button>
+    <img id="lbImg" alt="Gallery" />
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+</div>
+
+
+  </main>
+
+  <!-- CHAT -->
+  <button class="chat-fab" id="chatFab" aria-label="Open chat">💬</button>
+  <div class="chat-widget" id="chatWidget" aria-hidden="true">
+    <div class="chat-header">
+      <div>
+        <div class="chat-title">Area 55 Chat</div>
+        <div class="chat-sub">Ask questions anytime (admin replies here)</div>
+      </div>
+      <button class="chat-x" id="chatClose" aria-label="Close">✕</button>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+      <div class="chat-empty">Tap the chat button to start.</div>
+    </div>
+
+    <div class="chat-footer">
+      <input id="chatInput" placeholder="Type a message..." />
+      <button id="chatSend" class="chat-send">Send</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <script>window.__ROLE__="user";</script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

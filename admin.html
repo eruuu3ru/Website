@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Area 55 • Admin</title>
+  <link rel="stylesheet" href="./admin.css" />
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg">
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="glow g3"></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <!-- LOCK SCREEN (shows until logged in) -->
+  <section class="lock-screen" id="adminLockedScreen">
+    <div class="card">
+      <div class="card-head">
+        <h1>Admin Login</h1>
+        <p>Only admins can view and manage bookings & chat.</p>
+      </div>
+
+      <div class="form">
+        <label>Email</label>
+        <input id="adminEmail" type="email" placeholder="admin@email.com" autocomplete="username" />
+
+        <label>Password</label>
+        <input id="adminPassword" type="password" placeholder="••••••••" autocomplete="current-password" />
+
+        <button class="btn primary" id="adminLoginBtn" type="button">Login</button>
+
+
+
+        
+        <div class="hint">
+          This is <b>Admin Page</b>, user shouldn't be here!
+        </div>
+
+        <a class="back" href="./index.html">← Back to User Site</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN APP (hidden until login) -->
+  <main class="admin-app" id="adminApp" style="display:none;">
+    <header class="topbar">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <div class="title">Area 55 Admin</div>
+          <div class="sub">Bookings manager</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <!-- ✅ Fix User Site button: use normal anchor -->
+        <a class="btn ghost" href="./index.html">User Site</a>
+        <button class="btn danger" id="adminLogoutBtn">Logout</button>
+      </div>
+    </header>
+
+    <section class="grid admin-grid-2">
+      <!-- LEFT: Calendar + Bookings -->
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Bookings</h2>
+          <div class="pill">
+            <span>Date:</span> <b id="admDate">—</b>
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar-box">
+          <div class="calendar-header">
+            <button class="icon-btn" id="calPrev" aria-label="Previous month">&#10094;</button>
+            <span class="cal-month" id="calMonth"></span>
+            <button class="icon-btn" id="calNext" aria-label="Next month">&#10095;</button>
+          </div>
+
+          <div class="calendar-weekdays">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div class="calendar-days" id="calendarDays"></div>
+        </div>
+
+        <!-- ✅ NEW: Slots -->
+        <div class="slots-head">
+          <div class="label">Time Slots</div>
+          <div class="hint">Green = available, Red = booked</div>
+        </div>
+        <div class="time-slots" id="adminSlots"></div>
+
+        <!-- Summary -->
+        <div class="summary" id="adminSummary">
+          <div class="sum">
+            <div class="k">Bookings</div>
+            <div class="v" id="admCount">0</div>
+          </div>
+          <div class="sum">
+            <div class="k">Total Hours</div>
+            <div class="v" id="admHours">0</div>
+          </div>
+          <div class="sum">
+            <div class="k">Estimated Sales</div>
+            <div class="v" id="admSales">₱0</div>
+          </div>
+        </div>
+
+        <!-- Booking list -->
+        <div class="list" id="adminBookingList">
+          <div class="empty">Select a date.</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Chat -->
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Chats</h2>
+          <div class="pill"><span>Inbox</span></div>
+        </div>
+
+        <div class="admin-chat-grid">
+          <!-- threads -->
+          <div class="admin-threads">
+            <div class="admin-threads-head">
+              <div class="label">Conversations</div>
+              <div class="hint" id="threadCount">0</div>
+            </div>
+            <div class="admin-threads-list" id="threadList">
+              <div class="empty">No conversations yet.</div>
+            </div>
+          </div>
+
+          <!-- messages -->
+          <div class="admin-chatbox">
+            <div class="admin-chatbox-head">
+              <div>
+                <div class="label">Selected</div>
+                <div class="hint" id="activeThreadLabel">—</div>
+              </div>
+              <button class="icon-btn" id="closeThreadBtn" title="Close">✕</button>
+            </div>
+
+            <div class="admin-chat-body" id="adminChatBody">
+              <div class="chat-empty">Select a conversation.</div>
+            </div>
+
+            <div class="admin-chat-footer">
+              <input id="adminChatInput" placeholder="Type a reply…" autocomplete="off"/>
+              <button id="adminChatSend">Send</button>
+            </div>
+
+            <button class="btn danger" id="threadDeleteBtn">Delete chat</button>
+
+            <div class="tiny-note">
+              Replies send to Firestore <code>/conversations/{cid}/messages</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>window.__ROLE__="admin";</script>
+  <script type="module" src="./admin.js"></script>
+</body>
+</html>
