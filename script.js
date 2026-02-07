@@ -504,9 +504,6 @@ async function initUser() {
       startUserChatListener(convoId);
     } catch (e) {
       console.error(e);
-
-      // ❌ NO toast here
-      // Just show fallback message inside chat
       if (chatBody) {
         chatBody.innerHTML = `
           <div class="chat-empty">
@@ -521,78 +518,71 @@ async function initUser() {
     }
   });
 
-
   chatClose?.addEventListener("click", () => {
     chatWidget?.classList.remove("open");
     chatWidget?.setAttribute("aria-hidden", "true");
   });
 
   function setSendEnabled() {
-  if (!chatSend || !chatInput) return;
-  chatSend.disabled = !(chatInput.value || "").trim();
-  chatSend.style.opacity = chatSend.disabled ? "0.55" : "1";
-  chatSend.style.cursor = chatSend.disabled ? "not-allowed" : "pointer";
-}
+    if (!chatSend || !chatInput) return;
+    chatSend.disabled = !(chatInput.value || "").trim();
+    chatSend.style.opacity = chatSend.disabled ? "0.55" : "1";
+    chatSend.style.cursor = chatSend.disabled ? "not-allowed" : "pointer";
+  }
 
-chatInput?.addEventListener("input", setSendEnabled);
+  chatInput?.addEventListener("input", setSendEnabled);
 
-async function sendUserChat() {
-  if (!chatInput) return;
+  async function sendUserChat() {
+    if (!chatInput) return;
 
-  const text = (chatInput.value || "").trim();
-  if (!text) return;
+    const text = (chatInput.value || "").trim();
+    if (!text) return;
 
-  // ✅ Clear input immediately (better UX)
-  chatInput.value = "";
-  setSendEnabled();
+    chatInput.value = "";
+    setSendEnabled();
 
-  try {
-    const convoId = await ensureConversation();
+    try {
+      const convoId = await ensureConversation();
 
-    await addDoc(collection(db, "conversations", convoId, "messages"), {
-      sender: auth.currentUser.uid,
-      text,
-      createdAt: serverTimestamp()
-    });
+      await addDoc(collection(db, "conversations", convoId, "messages"), {
+        sender: auth.currentUser.uid,
+        text,
+        createdAt: serverTimestamp()
+      });
 
-    await setDoc(doc(db, "conversations", convoId), {
-      updatedAt: serverTimestamp(),
-      lastMessageAt: serverTimestamp()
-    }, { merge: true });
+      await setDoc(doc(db, "conversations", convoId), {
+        updatedAt: serverTimestamp(),
+        lastMessageAt: serverTimestamp()
+      }, { merge: true });
 
-  } catch (e) {
-    console.error(e);
+    } catch (e) {
+      console.error(e);
 
-    // ✅ Show not sent bubble + FB link
-    if (chatBody) {
-      chatBody.insertAdjacentHTML(
-        "beforeend",
-        `<div class="bubble them">
-           <div>${esc(text)}</div>
-           <div class="meta">Not sent • Click Facebook below</div>
-         </div>${fbOfflineCardHTML()}`
-      );
-      chatBody.scrollTop = chatBody.scrollHeight;
+      if (chatBody) {
+        chatBody.insertAdjacentHTML(
+          "beforeend",
+          `<div class="bubble them">
+             <div>${esc(text)}</div>
+             <div class="meta">Not sent • Click Facebook below</div>
+           </div>${fbOfflineCardHTML()}`
+        );
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      toast("Admin offline", "warn", "Click the Facebook link in chat.");
     }
-
-    toast("Admin offline", "warn", "Click the Facebook link in chat.");
   }
-}
 
-// ✅ Click send button
-chatSend?.addEventListener("click", sendUserChat);
+  chatSend?.addEventListener("click", sendUserChat);
 
-// ✅ Press Enter to send
-chatInput?.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    sendUserChat();
-  }
-});
+  chatInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendUserChat();
+    }
+  });
 
-// init state
-setSendEnabled();
-
+  setSendEnabled();
 
   populateStartTimes();
   populateDuration();
@@ -1126,4 +1116,66 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try { initCoverflow(); } catch (e) { console.error(e); }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.12 }
+);
+
+reveals.forEach(el => revealObserver.observe(el));
+
+function smoothJumpToHash(hash){
+  const el = document.querySelector(hash);
+  if(!el) return;
+
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  el.classList.remove("section-focus");
+  void el.offsetWidth;
+  el.classList.add("section-focus");
+
+  setTimeout(() => el.classList.remove("section-focus"), 900);
+}
+
+document.querySelectorAll('a.nav-link[href^="#"]').forEach(a => {
+  a.addEventListener("click", (e) => {
+    const href = a.getAttribute("href");
+    if(!href || href === "#") return;
+    e.preventDefault();
+    history.pushState(null, "", href);
+    smoothJumpToHash(href);
+  });
+});
+
+function markActiveNav(){
+  const links = [...document.querySelectorAll('a.nav-link[href^="#"]')];
+  const sections = links
+    .map(l => document.querySelector(l.getAttribute("href")))
+    .filter(Boolean);
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(!entry.isIntersecting) return;
+      const id = "#" + entry.target.id;
+      links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === id));
+    });
+  }, { rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
+
+  sections.forEach(s => obs.observe(s));
+}
+
+markActiveNav();
+
+window.addEventListener("load", () => {
+  if(location.hash) smoothJumpToHash(location.hash);
 });
