@@ -1078,3 +1078,56 @@ select option{ background:#0b0b14; color:#f2f2ff; }
 .reveal.delay-2{ transition-delay: .16s; }
 .reveal.delay-3{ transition-delay: .24s; }
 .reveal.delay-4{ transition-delay: .32s; }
+
+.info-row-link{
+  text-decoration:none;
+  cursor:pointer;
+  transition: transform .15s ease, background .2s ease, border-color .2s ease, filter .2s ease;
+}
+
+.info-row-link:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.16);
+  filter: brightness(1.02);
+}
+
+.row-arrow{
+  margin-left:auto;
+  align-self:center;
+  color: rgba(255,255,255,0.82);
+  font-weight: 900;
+  padding-left: 10px;
+}
+
+.info-row-link{
+  text-decoration:none;
+  cursor:pointer;
+  transition: transform .15s ease, background .2s ease, border-color .2s ease, filter .2s ease;
+}
+.info-row-link:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.16);
+  filter: brightness(1.02);
+}
+.row-arrow{
+  margin-left:auto;
+  align-self:center;
+  color: rgba(255,255,255,0.82);
+  font-weight: 900;
+  padding-left: 10px;
+}
+
+.rules-card,
+.info-card.rules-card {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+.info-card.rules-card{
+  overflow: visible;
+  height: auto;
+  max-height: none;
+}

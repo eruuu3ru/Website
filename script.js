@@ -140,7 +140,10 @@ async function initUser() {
 
   const nameEl      = document.getElementById("customerName");
   const phoneEl     = document.getElementById("customerPhone");
-  const startTimeEl = document.getElementById("startTime");
+
+  // REMOVED: startTime dropdown element usage
+  // const startTimeEl = document.getElementById("startTime");
+
   const durationEl  = document.getElementById("duration");
   const partySizeEl = document.getElementById("partySize");
   const slotBox     = document.getElementById("timeSlots");
@@ -168,17 +171,10 @@ async function initUser() {
   let slotElsByTime = new Map();
   let unsubscribeUserChat = null;
 
-  await ensureAnonUser();
+  // NEW: selected start time comes from slot clicks
+  let selectedStartTime = null;
 
-  function populateStartTimes() {
-    if (!startTimeEl) return;
-    startTimeEl.innerHTML = "";
-    for (const t of SLOTS) {
-      const o = document.createElement("option");
-      o.value = t; o.textContent = t;
-      startTimeEl.appendChild(o);
-    }
-  }
+  await ensureAnonUser();
 
   function maxDurationForStart(startTime) {
     const h = Number((startTime || "06:00").split(":")[0]);
@@ -186,8 +182,9 @@ async function initUser() {
   }
 
   function populateDuration() {
-    if (!durationEl || !startTimeEl) return;
-    const maxDur = maxDurationForStart(startTimeEl.value);
+    if (!durationEl) return;
+    const base = selectedStartTime || "06:00";
+    const maxDur = maxDurationForStart(base);
     durationEl.innerHTML = "";
     for (let d = 1; d <= maxDur; d++) {
       const o = document.createElement("option");
@@ -214,13 +211,12 @@ async function initUser() {
     const pricePerHour = getPricePerHour(ps);
 
     if (summaryDateEl) summaryDateEl.textContent = selectedDateISO ? uiDate(selectedDateISO) : "—";
-    if (summaryTimeEl) summaryTimeEl.textContent = startTimeEl?.value || "—";
+    if (summaryTimeEl) summaryTimeEl.textContent = selectedStartTime || "—";
     if (summaryDurationEl) summaryDurationEl.textContent = `${dur} hour${dur > 1 ? "s" : ""}`;
     if (summaryGuestsEl) summaryGuestsEl.textContent = partySizeEl?.value || "1";
     if (summaryTotalEl) summaryTotalEl.textContent = "₱" + (dur * pricePerHour);
   }
 
-  startTimeEl?.addEventListener("change", () => { populateDuration(); updateSummary(); paintSelection(); });
   durationEl?.addEventListener("change", () => { updateSummary(); paintSelection(); });
   partySizeEl?.addEventListener("change", updateSummary);
 
@@ -235,7 +231,8 @@ async function initUser() {
   }
 
   function selectionRange() {
-    const start = SLOTS.indexOf(startTimeEl?.value);
+    if (!selectedStartTime) return null;
+    const start = SLOTS.indexOf(selectedStartTime);
     const dur = Number(durationEl?.value || 1);
     if (start < 0) return null;
     return { startIndex: start, endIndexExclusive: start + dur };
@@ -250,6 +247,7 @@ async function initUser() {
 
   function paintSelection() {
     slotElsByTime.forEach(el => el.classList.remove("selected", "conflict"));
+
     const sel = selectionRange();
     if (!sel) return;
 
@@ -288,8 +286,7 @@ async function initUser() {
         div.classList.add("available");
         div.textContent = t;
         div.onclick = () => {
-          if (!startTimeEl) return;
-          startTimeEl.value = t;
+          selectedStartTime = t;
           populateDuration();
           updateSummary();
           paintSelection();
@@ -347,7 +344,12 @@ async function initUser() {
         clearActive();
         s.classList.add("active");
         selectedDateISO = isoDate(y, m + 1, d);
+
+        // reset selected start time when changing date
+        selectedStartTime = null;
+        populateDuration();
         updateSummary();
+
         startSlotsLive(selectedDateISO);
       };
       calDays.appendChild(s);
@@ -369,10 +371,11 @@ async function initUser() {
     await ensureAnonUser();
 
     if (!selectedDateISO) return toast("Select a date first.", "warn");
+    if (!selectedStartTime) return toast("Select a start hour from the slots.", "warn");
 
     const name = (nameEl?.value || "").trim();
     const phone = cleanPhone(phoneEl?.value || "");
-    const startTime = startTimeEl?.value || "06:00";
+    const startTime = selectedStartTime;
     const duration = Number(durationEl?.value || 1);
     const partySize = Number(partySizeEl?.value || 1);
 
@@ -420,6 +423,10 @@ async function initUser() {
 
       await batch.commit();
       toast("Booking confirmed!", "success", `${uiDate(selectedDateISO)} • ${startTime} • ${duration}h`);
+
+      // Optional: keep selection but clear range highlight
+      // selectedStartTime = null; populateDuration(); updateSummary(); paintSelection();
+
     } catch (e) {
       console.error(e);
       toast("Booking failed.", "error", e?.message || "Missing Informations!.");
@@ -584,7 +591,7 @@ async function initUser() {
 
   setSendEnabled();
 
-  populateStartTimes();
+  // init for user page (slots-only)
   populateDuration();
   populateParty();
   updateSummary();

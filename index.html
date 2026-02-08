@@ -105,11 +105,6 @@
             </div>
 
             <div class="form-field">
-              <label>Start Time</label>
-              <select id="startTime"></select>
-            </div>
-
-            <div class="form-field">
               <label>Duration</label>
               <select id="duration"></select>
             </div>
@@ -122,7 +117,6 @@
 
           <div class="slots-head">
             <div class="label">Available Hourly Slots</div>
-            <div class="hint">Purple = selected range • Red outline = conflict</div>
           </div>
           <div class="time-slots" id="timeSlots"></div>
 
@@ -150,9 +144,9 @@
           <button class="confirm-btn" id="confirmBtn">Confirm Booking</button>
 
           <div class="price-note" aria-label="Pricing rules">
-            <span class="pn-pill">₱150 <span class="pn-muted">1–4 persons</span></span>
+            <span class="pn-pill">₱150/hr <span class="pn-muted">1–4 persons</span></span>
             <span class="pn-sep">•</span>
-            <span class="pn-pill">₱200 <span class="pn-muted">5–8 persons</span></span>
+            <span class="pn-pill">₱200/hr <span class="pn-muted">5–8 persons</span></span>
           </div>
         </aside>
       </div>
@@ -226,62 +220,66 @@
       <div class="cf-dots" id="cfDots"></div>
 
       <div class="info-grid">
-        <div class="info-card">
-          <div class="info-head">
-            <h3>Our Location</h3>
-            <p class="info-sub">Visit us or use the map for directions.</p>
-          </div>
+  <div class="info-card">
+    <div class="info-head">
+      <h3>Our Location</h3>
+      <p class="info-sub">Visit us or use the map for directions.</p>
+    </div>
 
-          <div class="info-rows">
-            <div class="info-row">
-              <div class="info-ico phone"></div>
-              <div class="info-main">
-                <div class="info-k">Contact Number</div>
-                <div class="info-v">09615076905 / 09060655227</div>
-              </div>
-            </div>
-
-            <a class="info-chip wide" href="https://maps.app.goo.gl/JTNwYnGdpdrXtNHU9" target="_blank" rel="noopener">
-              <span class="chip-ic pin" aria-hidden="true"></span>
-              <span class="chip-label">Location</span>
-              <span class="chip-value">Botong Francisco Ave, San Isidro, Angono Rizal</span>
-            </a>
-          </div>
-
-          <div class="info-media">
-            <img src="location.jpg" alt="Area 55 Location Map" />
-          </div>
-        </div>
-
-        <div class="info-card rules-card">
-          <div class="info-head">
-            <h3>House Rules</h3>
-            <div class="info-sub">For everyone’s comfort and safety.</div>
-          </div>
-
-          <div class="rules-list">
-            <div class="rules-note">
-              Please follow these rules to keep the room clean, safe, and enjoyable for everyone.
-            </div>
-
-            <ul class="rules-ul">
-              <li><b>Time starts on your scheduled booking</b>, not the time of arrival (online booking).</li>
-              <li><b>Keep the door closed</b> and respect noise levels. No shouting.</li>
-              <li><b>Maintain cleanliness</b>. Please clean as you go.</li>
-              <li><b>Outside drinks are not allowed.</b></li>
-              <li>You may bring food if you’re not ordering from us, <b>but clean as you go</b>.</li>
-              <li><b>Damages</b> (broken/destroyed items) will be charged to the guest.</li>
-              <li><b>Maximum of 8 guests</b> allowed inside the room.</li>
-              <li><b>No smoking</b> inside the room.</li>
-              <li>Please ask staff for assistance when handling equipment to avoid damage.</li>
-            </ul>
-
-            <div class="rules-foot">
-              By booking, you agree to follow these rules. Thank you!
-            </div>
-          </div>
+    <div class="info-rows">
+      <div class="info-row">
+        <div class="info-ico phone"></div>
+        <div class="info-main">
+          <div class="info-k">Contact Number</div>
+          <div class="info-v">09615076905 / 09060655227</div>
         </div>
       </div>
+
+      <a class="info-row info-row-link" href="https://maps.app.goo.gl/JTNwYnGdpdrXtNHU9" target="_blank" rel="noopener">
+        <div class="info-ico pin"></div>
+        <div class="info-main">
+          <div class="info-k">Location</div>
+          <div class="info-v">Botong Francisco Ave, San Isidro, Angono Rizal</div>
+        </div>
+        <div class="row-arrow">→</div>
+      </a>
+    </div>
+
+    <div class="info-media">
+      <img src="loc.jpg" alt="Area 55 Location Map" />
+    </div>
+  </div>
+
+  <div class="info-card rules-card">
+    <div class="info-head">
+      <h3>House Rules</h3>
+      <div class="info-sub">For everyone’s comfort and safety.</div>
+    </div>
+
+    <div class="rules-list">
+      <div class="rules-note">
+        Please follow these rules to keep the room clean, safe, and enjoyable for everyone.
+      </div>
+
+      <ul class="rules-ul">
+        <li><b>Time starts on your scheduled booking</b>, not the time of arrival (online booking).</li>
+        <li><b>Keep the door closed</b> and respect noise levels. No shouting.</li>
+        <li><b>Maintain cleanliness</b>. Please clean as you go.</li>
+        <li><b>Outside drinks are not allowed.</b></li>
+        <li>You may bring food if you’re not ordering from us, <b>but clean as you go</b>.</li>
+        <li><b>Damages</b> (broken/destroyed items) will be charged to the guest.</li>
+        <li><b>Maximum of 8 guests</b> allowed inside the room.</li>
+        <li><b>No smoking</b> inside the room.</li>
+        <li>Please ask staff for assistance when handling equipment to avoid damage.</li>
+      </ul>
+
+      <div class="rules-foot">
+        By booking, you agree to follow these rules. Thank you!
+      </div>
+    </div>
+  </div>
+</div>
+
     </section>
 
     <div class="lightbox" id="lightbox" aria-hidden="true">
